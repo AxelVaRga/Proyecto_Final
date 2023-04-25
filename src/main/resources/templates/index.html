@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      mlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+    <head >
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>FINNK</title>
+        <link rel="icon" href="img/logo finnk.jpg">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
+        <link rel="stylesheet" href="css/estilos.css">
+        <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+        <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+        <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+        <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+    </head>
+    <body>
+           <header th:fragment="header">
+            <nav class=" nav navbar navbar-expand-lg bg-body-tertiary contenedor  ">
+                <div class=" container-fluid nav  ">
+                    <a class="logo  p-4" th:href="@{/}">[[#{aplicacion.titulo}]]</a>
+                    <div class=" menu-toggle">
+                        <i class="fas fa-bars"></i>
+                        <i class="fas fa-times"></i>
+                    </div>
+                    <div class="nav  " id="navbarNavDropdown">
+                        <ul class=" nav-list m-2">
+                            <li class="nav-item">                     
+                                <a th:href="@{/}" class="ruta-TG active ">[[#{index.inicio}]]</a>
+                            </li>
+                             <li class="nav-item">
+                                <a th:href="@{/finnk/Productos}" class="ruta-TG">[[#{index.productos}]]</a>
+                            </li>
+                            <li class="nav-item">
+                                <a th:href="@{/finnk/New arrivals}" class="ruta-TG">[[#{index.novedades}]]</a>
+                            </li>
+                            <li class="nav-item">
+                                <a th:href="@{/finnk/informacion}" class="ruta-TG">[[#{index.informacion}]]</a>
+                            </li>
+                            <li class="nav-item">
+                                <a th:href="@{/finnk/blogs}" class="ruta-TG  ">[[#{index.blog}]]</a>
+                            </li>  
+                             <li class="nav-item">
+                                <a th:href="@{/reportes/principal}" class="ruta-TG  ">[[#{index.reportes}]]</a>
+                            </li> 
+                            <li class="nav-item dropdown" sec:authorize="hasRole('ROLE_ADMIN')" >
+                                <a class="ruta-TG dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                   [[#{index.drop}]]
+                                </a>
+                                <ul class="dropdown-menu w-40 p-3 " >
+                                    <li class="dropdown-header" >[[#{index.dropheader}]]</li>
+                                    <li sec:authorize="hasRole('ROLE_ADMIN')"><a class="dropdown-item " th:href="@{/informacion/listado}">[[#{index.listadoC}]]</a></li>
+                                    <li sec:authorize="hasRole('ROLE_ADMIN')"><a class="dropdown-item " th:href="@{/productos/Inventario}">[[#{index.catalogoR}]]</a></li>                               
+                                    <li sec:authorize="hasRole('ROLE_ADMIN')"><a class="dropdown-item"  th:href="@{/proveedor/Inventario}">[[#{index.listadoP}]]</a></li>     
+                                    <li sec:authorize="hasRole('ROLE_ADMIN')"><a class="dropdown-item"  th:href="@{/empleado/InventarioB}">[[#{index.listadoE}]]</a></li>
+                                      <li sec:authorize="hasRole('ROLE_ADMIN')"><a class="dropdown-item"  th:href="@{/tienda/listado}">[[#{index.listadoT}]]</a></li>
+                                      <li sec:authorize="hasRole('ROLE_ADMIN')"><a class="dropdown-item"  th:href="@{/Reclamos/listado}">[[#{index.listadoW}]]</a></li>
+                                </ul>
+                            </li>                           
+                             <ul class ="navbar-nav" sec:authorize="!isAuthenticated()">
+                            <li class="nav-item">
+                                <a class="ruta-TG" th:href="@{/login}">[[#{login.menu}]]</a>
+                            </li>                            
+                        </ul>
+                        <ul class="navbar-nav"sec:authorize="isAuthenticated()">
+                            <li class=" nav-item text-white ruta-TG  "> 
+                                <i class="fas fa-user"></i> <span sec:authentication="name">Bob</span>
+                            </li>
+                            <li class="nav-item my-auto  ">
+                                <form method="post" th:action="@{/logout}">
+                                    <button class="btn  text-white  ">[[#{login.salida}]]</button>
+                                </form>
+                            </li>                            
+                        </ul>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+
+    <section class="hero" id="hero">
+        <div class="contenedor">
+            <h2 class="h2-sub">
+                <span class="fil">[[#{inicial.titulo}]]</span>[[#{inicio.titulo}]]
+            </h2>
+           
+            <div class="he-des">
+                <h5 class="titulo-inde">[[#{inicio.subtitulo}]]</h5>
+                <a th:href="@{/finnk/blogs}" class="botones botones-index">[[#{boton.inicio}]]</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="dis-sto">
+        <div class="contenedor">
+            <div class="res-info">
+                <div class="imagen-encab">
+                    <img class="gif-1"src="/img/1142651.gif" alt="">     
+                              
+                </div>
+            
+                <div class="res-des pad-rig">
+                    <div class="global">
+                        <h2 class="h2-sub">
+                            <span class="fil">[[#{inicial.rosadas}]]</span>[[#{inicio.columna1}]]
+                        </h2>
+                        <p class="head-3d">[[#{inicio.subcolumna1}]]</p>
+                        <div class="circle">
+                            <i class="fas fa-circle"></i>
+                        </div>
+                    </div>
+                    <p>[[#{parrafo.columna1}]]
+                        
+                    </p>
+                    <a th:href="@{/finnk/informacion}" class="botones botones-index">[[#{inicio.columna8}]]</a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+    <section class="taste bt">
+        <div class="contenedor">
+            <div class="global">
+                <h2 class="h2-sub">
+                    <span class="fil">[[#{inicial.titulo}]]</span>[[#{inicio.columna2}]]
+                </h2>
+                <h1 class="head ">[[#{inicio.subcolumna2}]]</h1>
+            </div>
+        </div>
+    </section>
+
+
+    <section class="disco">
+        <div class="contenedor">
+            <div class="res-info">
+                <div class="res-des">
+                    <div class="global">
+                        <h2 class="h2-sub">
+                            <span class="fil">[[#{inicial.rosadas}]]</span>[[#{inicio.columna1}]]
+                        </h2>
+                        <h1 class="head hea-dark">[[#{inicio.subcolumna3}]]</h1>
+                        <div class="circle">
+                            <i class="fas fa-circle"></i>
+                        </div>
+                    </div>
+                    <p>[[#{parrafo.columna3}]]</p>
+                    <a th:href="@{/finnk/Ropa}" class="botones botones-index">[[#{boton.columna7}]]</a>
+                </div>
+                <div class="image-group pad-rig">
+                    <img class="b1"src="img/bolso3.gif" alt="">
+                    <img class="b1"src="img/Bindex.jpg" alt="">   
+                    
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section class="pb bt">
+        <div class="contenedor">
+            <div class="global">
+                <h2 class="h2-sub">
+                    <span class="fil">[[#{inicial.r}]]</span>[[#{inicio.tituloRo}]]
+                </h2>
+                <h1 class="head">[[#{inicio.subcolumna4}]]</h1>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="contenedor">       
+            <div class="res-info">
+                <div class="image-group1">
+                    <div class="caj1">
+                    <div class="caj" style="background-image: url(img/sh2.jpg)"></div>
+                    <div class="conte">
+                        <div class="card-category">overside</div>
+                        <h3 class="card-heading">boneless Hoddie</h3>
+                    </div>   
+                    </div>
+                    <div class="caj1">
+                        <div class="caj" style="background-image: url(img/sh3.jpg)"></div>
+                        <div class="conte">
+                            <div class="card-category">overside</div>
+                            <h3 class="card-heading">boneless Hoddie</h3>
+                        </div>   
+                   </div>
+                   <div class="caj1">
+                    <div class="caj" style="background-image: url(img/sh1.jpg)"></div>
+                    <div class="conte">
+                        <div class="card-category">overside</div>
+                        <h3 class="card-heading">boneless Hoddie</h3>
+                    </div>   
+               </div>
+               <div class="caj1">
+                <div class="caj" style="background-image: url(img/b22.jpg)"></div>
+                <div class="conte">
+                    <div class="card-category">overside</div>
+                    <h3 class="card-heading">boneless Hoddie</h3>
+                </div>   
+           </div>
+                   
+                        
+    
+                </div>
+                <div class="res-des pad-rig">
+                    <div class="global">                       
+                        <h2 class="h2-sub">
+                            <span class="fil">[[#{inicial.rosadas}]]</span>[[#{inicio.columna3}]]
+                        </h2>
+                        <h1 class="head hea-dark">[[#{inicio.subcolumna7}]]</h1>
+                        <div class="circle">
+                            <i class="fas fa-circle"></i>
+                        </div>
+                    </div>
+                    <p>[[#{parrafo.columna5}]]
+                        
+                    </p>
+                    <a th:href="@{/finnk/Ropa}" class="botones botones-index">[[#{boton.columna7}]]</a>
+                </div>
+        
+             </div>
+             
+       </div>      
+   
+   
+    </section>
+        <section class="sectJ bt">
+        <div class="contenedor">
+            <div class="global">
+                <h2 class="h2-sub">
+                    <span class="fil">[[#{inicial.j}]]</span>[[#{inicio.columna6}]]
+                </h2>
+                <h1 class="head">[[#{inicio.subcolumna6}]]</h1>
+            </div>
+        </div>
+    </section>
+        
+  <section class="dis-sto">
+        <div class="contenedor">
+            <div class="res-info">
+                <div class="slider-frame">
+                    <ul>
+                        <li><img src="img/anillo1.jpg" alt="500"/></li>
+                        <li><img src="img/anillo2.jpg" alt="500"/></li>
+                        <li><img src="img/anillo2.jpg" alt="500"/></li>
+                        <li><img src="img/anillo3.gif" alt="500"/></li>
+                    </ul>
+                </div>
+            
+                <div class="res-des pad-rig">
+                    <div class="global">
+                        <h2 class="h2-sub">
+                            <span class="fil">[[#{inicial.rosadas}]]</span>[[#{inicio.columna1}]]
+                        </h2>
+                        <h1 class="head hea-dark">[[#{inicio.subcolumna7}]]</h1>
+                        <div class="circle">
+                            <i class="fas fa-circle"></i>
+                        </div>
+                    </div>
+                    <p>[[#{parrafo.columna7}]] </p>
+                    <a th:href="@{/finnk/Ropa}" class="botones botones-index">[[#{boton.columna7}]]</a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+        
+        
+        
+         </section>
+        <section class="sectR bt">
+        <div class="contenedor">
+            <div class="global">
+                <h2 class="h2-sub">
+                    <span class="fil">[[#{inicial.r}]]</span>[[#{inicio.columna11}]]
+                </h2>
+                <h1 class="head">[[#{inicio.subcolumna6}]]</h1>
+            </div>
+        </div>
+        </section>
+         
+            <section class="disco">
+        <div class="contenedor caja-section-reloj">
+           
+                <div class="res-des">
+                    <div class="global">
+                        <h2 class="h2-sub">
+                            <span class="fil">[[#{inicial.rosadas}]]</span>[[#{inicio.columna1}]]
+                        </h2>
+                        <h1 class="head hea-dark">[[#{inicio.subcolumna3}]]</h1>
+                        <div class="circle">
+                            <i class="fas fa-circle"></i>
+                        </div>
+                        <p>[[#{parrafo.columna3}]]</p>
+                        <a th:href="@{/finnk/Ropa}" class="botones botones-index">[[#{boton.columna7}]]</a>
+                    </div>
+                    </div>
+              
+                    <figure class="icon-cards mt-3 ">
+                        <div class="icon-cards-contenido">
+                            <div class="icon-cards-item d-flex align-items-center justify-content-center">
+                                <img src="https://img.ltwebstatic.com/images3_pi/2023/02/27/16774998130d61a5caf297441cd6c7993e5ed9ce15_thumbnail_900x.webp" alt="500"/></div>
+                            <div class="icon-cards-item d-flex align-items-center justify-content-center">
+                                <img src="https://img.ltwebstatic.com/images3_pi/2023/03/21/1679380102b02f5368e6dbaceb8c102b8e9833ac03_thumbnail_900x.webp" alt="500"/></div>
+                            <div class="icon-cards-item d-flex align-items-center justify-content-center">
+                                <img src="https://img.ltwebstatic.com/images3_pi/2023/03/08/167826815016954748a2cd87130d29ed0149da293e_thumbnail_900x.webp" alt="500"/></div>
+                            
+                        </div>
+                    </figure>
+ 
+                 
+            
+        </div>
+    </section>
+
+       
+        
+        
+        
+        <footer th:fragment="footerIndex">
+        <div class="contenedor">
+            <div class="footer-content">
+
+                <div class="footer-content-about">
+                    <h4>[[#{inicio.columna8}]]</h4>
+                    <div class="circle">
+                        <i class="fas fa-circle"></i>
+                    </div>
+                    <p>[[#{parrafo.columna8}]]</p>
+                </div>
+                <div class="footer-div">
+                    <div class="social-media">
+                        <h4>[[#{text.columna8}]]</h4>
+                        <ul class="social-icons">
+                            <li>
+                                <a href="#"><i class="fab fa-twitter"></i></a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="fab fa-facebook-square"></i></a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="fab fa-pinterest"></i></a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="fab fa-whatsapp"></i></a>
+                            </li>
+
+                        </ul>
+                            <h4>[[#{text.columna9}]]</h4>
+                 
+                        <ul class="social-icons p-1">
+                            <li>
+                            <a class="p-2 langue" th:href="@{/(lang=es)}">[[#{text.columna6}]]</a>
+                            </li>
+                            <li>
+                            <a class="p-2 langue " th:href="@{/(lang=en)}">[[#{text.columna7}]]</a>
+                            </li>
+                        </ul>                 
+                          
+    
+                    </div>
+                    <div class="p-5">
+                        <h4>[[#{textp3.columna8}]]</h4>
+               
+                    <div class="btnWhat">
+                        <img class="codbarras"src=" img/wa.link_hf7fg6.png">
+                    </div>
+
+                </div>
+                </div>
+         
+
+            </div>
+            </div>
+
+    </footer>
+   <script>
+
+              const selectElement = function(element) {
+                  return document.querySelector(element);
+              }
+
+
+              let menuToggle = selectElement('.menu-toggle');
+              let body = selectElement('body');
+
+              menuToggle.addEventListener('click', function(){
+                  body.classList.toggle('open');
+              })
+                function classToggle() {
+                 var el = document.querySelector('.icon-cards__content');
+                 el.classList.toggle('step-animation');
+                }
+
+               
+   </script>
+    </body>
+
+
+</html>

@@ -1,0 +1,306 @@
+ams<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      mlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+  <head th:fragment="head">
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>FINNK</title>
+        <link rel="icon" href="img/logo finnk.jpg">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
+        <link rel="stylesheet" href="/css/estilos.css">
+        <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+        <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+        <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+        <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>  
+    </head>
+    <body>
+       <header th:fragment="header">
+            <nav class=" nav navbar navbar-expand-lg bg-body-tertiary contenedor  ">
+                <div class=" container-fluid nav  ">
+                    <a class="logo  p-4" th:href="@{/}">[[#{aplicacion.titulo}]]</a>
+                    <div class=" menu-toggle">
+                        <i class="fas fa-bars"></i>
+                        <i class="fas fa-times"></i>
+                    </div>
+                    <div class="nav  " id="navbarNavDropdown">
+                        <ul class=" nav-list m-2">
+                            <li class="nav-item">                     
+                                <a th:href="@{/}" class="ruta-TG  ">[[#{index.inicio}]]</a>
+                            </li>
+                             <li class="nav-item">
+                                <a th:href="@{/finnk/Productos}" class="ruta-TG ">[[#{index.productos}]]</a>
+                            </li>
+                            <li class="nav-item">
+                                <a th:href="@{/finnk/New arrivals}" class="ruta-TG">[[#{index.novedades}]]</a>
+                            </li>
+                            <li class="nav-item">
+                                <a th:href="@{/finnk/informacion}" class="ruta-TG">[[#{index.informacion}]]</a>
+                            </li>
+                            <li class="nav-item">
+                                <a th:href="@{/finnk/blogs}" class="ruta-TG  ">[[#{index.blog}]]</a>
+                            </li>  
+                             <li class="nav-item">
+                                <a th:href="@{/reportes/principal}" class="ruta-TG  ">[[#{index.reportes}]]</a>
+                            </li> 
+                            <li class="nav-item dropdown active" sec:authorize="hasRole('ROLE_ADMIN')" >
+                                <a class="ruta-TG dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                   [[#{index.drop}]]
+                                </a>
+                                <ul class="dropdown-menu w-40 p-3 " >
+                                    <li class="dropdown-header" >[[#{index.dropheader}]]</li>
+                                    <li sec:authorize="hasRole('ROLE_ADMIN')"><a class="dropdown-item " th:href="@{/informacion/listado}">[[#{index.listadoC}]]</a></li>
+                                    <li sec:authorize="hasRole('ROLE_ADMIN')"><a class="dropdown-item " th:href="@{/productos/Inventario}">[[#{index.catalogoR}]]</a></li>                               
+                                    <li sec:authorize="hasRole('ROLE_ADMIN')"><a class="dropdown-item"  th:href="@{/proveedor/Inventario}">[[#{index.listadoP}]] </a></li>     
+                                    <li sec:authorize="hasRole('ROLE_ADMIN')"><a class="dropdown-item"  th:href="@{/empleado/InventarioB}">[[#{index.listadoE}]] </a></li>
+                                      <li sec:authorize="hasRole('ROLE_ADMIN')"><a class="dropdown-item"  th:href="@{/tienda/listado}">[[#{index.listadoT}]] </a></li>
+                                      <li sec:authorize="hasRole('ROLE_ADMIN')"><a class="dropdown-item"  th:href="@{/Reclamos/listado}">[[#{index.listadoW}]]</a></li>
+                                </ul>
+                            </li>                           
+                             <ul class ="navbar-nav" sec:authorize="!isAuthenticated()">
+                            <li class="nav-item">
+                                <a class="ruta-TG" th:href="@{/login}">[[#{login.menu}]]</a>
+                            </li>                            
+                        </ul>
+                        <ul class="navbar-nav"sec:authorize="isAuthenticated()">
+                            <li class=" nav-item text-white ruta-TG  "> 
+                                <i class="fas fa-user"></i> <span sec:authentication="name">Bob</span>
+                            </li>
+                            <li class="nav-item my-auto  ">
+                                <form method="post" th:action="@{/logout}">
+                                    <button class="btn  text-white  ">[[#{login.salida}]]</button>
+                                </form>
+                            </li>                            
+                        </ul>
+                            <li class="nav-item">
+                                <div id="resultsBlock">
+                                </div>
+                            </li>
+                      
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <!-- 1 Sección para crear el boton de agregar... llamará a una ventana modal-->
+        <section th:fragment="botonesAgregar" class="py-4 mb-4 bg-light">
+            <div class="container" sec:authorize="hasRole('ROLE_ADMIN')">
+                <div class="row">
+                    <div class="col-md-3">   
+                        <button 
+                            type="button" 
+                            class="btn btn-primary btn-block" 
+                            data-bs-toggle="modal" 
+                            data-bs-target="#agregarCliente">
+                            <i class="fas fa-plus"></i> [[#{ropa.agregar}]]
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+         <!-- 1 Sección para crear el boton de agregar... llamará a una ventana modal-->
+         <section th:fragment="agregarProducto">
+            <div id="agregarCliente" 
+                 class="modal fade" 
+                 tabindex="-1" 
+                 aria-labelledby="exampleModalLabel" 
+                 aria-hidden="true">
+                <div class="modal-dialog modal-md ">
+                    <div class="modal-content">
+                        <div class="modal-header bg-info text-white">
+                            <h5 class="modal-title">[[#{ropa.agregar}]]</h5>
+                            <button type="button" 
+                                    class="btn-close" 
+                                    data-bs-dismiss="modal" 
+                                    aria-label="Close"></button>
+                        </div> 
+                        <form th:action="@{/productos/guardar}" th:object="${producto}"
+                              method="POST" class="was-validated">
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                   
+                                    <label for="nombre">[[#{ropa.nombre}]]</label>
+                                    <input type="text" class="form-control" name="nombre" required="true">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="imagen">[[#{ropa.imagen}]])</label>
+                                    <input type="url" class="form-control" name="imagen">
+                              
+                                </div>
+                                <div class="mb-3">
+                                    <label for="precio">[[#{ropa.precio}]]</label>
+                                    <input type="number" class="form-control" name="precio" required="true">
+                                </div>
+                             
+                                <div class="mb-3">
+                                    <label for="estado">[[#{ropa.activo}]]</label>
+                                    <input type="text" class="form-control" name="estado">
+                                </div>
+                                 <div class="mb-3">
+                                    <label for="existencias">[[#{ropa.existencias}]]</label>
+                                    <input type="number" class="form-control" name="existencias">
+                                </div>
+                                 
+                            </div>
+                            <div class="modal-footer" sec:authorize="hasRole('ROLE_ADMIN')">
+                                <button class="btn btn-primary" type="submit">[[#{accion.guardar}]]</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3 Sección principal para mostrar la informacion de la entidad cliente -->
+        <section th:fragment="InventarioProductos" id="productos">
+            <div class="container m-1 ">
+                <div class="row  ">
+                    <div class="col-md-12">
+                        <div class="card-md-9 m-4 ">
+                            <div class="card-header ">
+                               
+                                <h4>[[#{ropa.listado}]]</h4></div>
+                                 <section th:replace="~{productos/plantilla :: botonesAgregar}"/>
+                            <div  th:if="${productos != null and !productos.empty}">
+                                <table class="table table-striped table-hover ">
+                                    <thead class="table-dark ">
+                                        <tr><th>[[#{ropa.contador}]]</th>   
+                                            <th>[[#{ropa.imagen}]]</th> 
+                                            <th>[[#{ropa.nombre}]]</th>                                                                           
+                                            <th>[[#{ropa.precio}]]</th>
+                                            <th>[[#{ropa.existencias}]]</th>
+                                            <th>[[#{ropa.activo}]]</th>
+                                          
+                                            
+                                            <th></th></tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr  th:each="producto, contador : ${productos}">
+                                            <td>[[${contador.count}]]</td> 
+                                            <td>[[${producto.imagen}]]</td> 
+                                            <td>[[${producto.nombre}]]</td>                                              
+                                            <td>[[${#numbers.setFormatDecimal(producto.precio,3,2)}]]</td>
+                                            <td>[[${producto.existencias}]]</td>     
+                                            <td>[[${producto.estado}]]</td>
+                                           
+                                        
+                                            <td sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{/productos/eliminar/}+${producto.idProducto}"
+                                                   class="btn btn-danger ">
+                                                    <i class="fas fa-trash"></i> [[#{accion.eliminar}]]</a>
+                                                <a th:href="@{/productos/modificar/}+${producto.idProducto}"
+                                                   class="btn btn-success">
+                                                    <i class="fas fa-pencil"></i> [[#{accion.modificar}]]</a></td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="text-center p-2" th:if="${productos == null or productos.empty}">
+                                <span>[[#{inventario.total}]]</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 p-5 ">
+                        <div class="card text-center bg-info text-white mb-3 ">
+                            <div class="card-body">
+                                <h3>[[#{ropa.total}]]</h3>
+                                <h4 class="fs-2"><i class="fas fa-users"></i> [[${totalProductos}]]</h4>
+                            </div>                             
+                        </div>
+                         <div class="  card text-center bg-primary text-white mb-3">
+                            <div class=" card-body">
+                                <h3>[[#{ropa.monto}]]</h3>
+                                <h4 class="fs-2"><i class="fas fa-money-bill-wave"></i> [[${totalPrecio}]]</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4 Fragmento que se utiliza en la página modifca.html -->
+        <section th:fragment="editarProducto">
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-8">
+                    <form method="POST"
+                          th:action="@{/productos/guardar}" th:object="${producto}"
+                          class="was-validated">
+                        <input type="hidden" name="idProducto" th:field="*{idProducto}"/>
+                        
+                        <section th:replace="~{productos/plantilla :: botonesEditar}"/>
+                        <div id=details>
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h4>[[#{accion.actualizar}]]</h4>
+                                            </div>
+                                            <div class="card-body">
+                                               <div class="mb-3">
+                                                    <label for="imagen">[[#{ropa.imagen}]]</label>
+                                                    <input type="url" class="form-control" 
+                                                           name="imagen" th:field="*{imagen}">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="nombre">[[#{ropa.nombre}]]</label>
+                                                    <input type="text" class="form-control" 
+                                                           name="nombre" th:field="*{nombre}"
+                                                           required="true">
+                                                </div>
+                                               
+                                                <div class="mb-3">
+                                                    <label for="precio">[[#{ropa.precio}]]</label>
+                                                    <input type="number" class="form-control" 
+                                                           name="precio" th:field="*{precio}"
+                                                           required="true">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="estado">[[#{ropa.activo}]]</label>
+                                                    <input type="text" class="form-control" 
+                                                           name="estado" th:field="*{estado}">
+                                                </div>
+                                                 <div class="mb-3">
+                                                    <label for="existencias">[[#{ropa.existencias}]]</label>
+                                                    <input type="number" class="form-control" 
+                                                           name="existencias" th:field="*{existencias}">
+                                                </div>
+                                                 
+                                                 
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5 Fragmento que se utiliza en el fragmento anterior -->
+        <section th:fragment="botonesEditar">
+            <div class="container py-4 mb-4 bg-light">
+                <div class="row">
+                    <div class="col-md-4 d-grid">
+                        <a th:href="@{/productos/Inventario}" class="btn btn-primary">
+                            <i class="fas fa-arrow-left"></i> [[#{accion.regresar}]]
+                        </a>
+                    </div>
+                    <div class="col-md-4 d-grid"sec:authorize="hasRole('ROLE_ADMIN')">                                
+                        <a th:href="@{/productos/eliminar/}+${producto.idProducto}"
+                           class="btn btn-danger">
+                            <i class="fas fa-trash"></i> [[#{accion.eliminar}]]
+                        </a>
+                    </div>
+                    <div class="col-md-4 d-grid"sec:authorize="hasRole('ROLE_ADMIN')">
+                        <button type="submit" class="btn btn-success">
+                            <i class="fas fa-check"></i> [[#{accion.guardar}]]
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </body>
+</html>

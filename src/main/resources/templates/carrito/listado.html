@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:sec="http://thymeleaf.org/extras/spring-security">
+    <head th:replace="~{carrito/fragmentosCarrito :: head}">
+    
+    </head>
+    <body class="Carrito-Body">
+        <header th:replace="~{carrito/fragmentosCarrito :: header}"/>
+
+        <section th:replace="~{carrito/fragmentosCarrito :: listadoCarrito}"/>
+
+        <footer th:replace="~{carrito/fragmentosCarrito :: footer}"/>
+
+    </body>
+</html>

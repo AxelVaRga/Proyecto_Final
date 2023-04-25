@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:sec="http://thymeleaf.org/extras/spring-security">
+    <head >
+         <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>FINNK</title>
+        <link rel="icon" href="img/logo finnk.jpg">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
+        <link rel="stylesheet" href="/css/estilos.css">
+        <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+        <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+        <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+        <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+    </head>
+    <body class="Carrito-Body">
+       <header th:fragment="header">
+            <nav class=" nav navbar navbar-expand-lg bg-body-tertiary contenedor  ">
+                <div class=" container-fluid nav  ">
+                    <a class="logo  p-4" th:href="@{/}">[[#{aplicacion.titulo}]]</a>
+                    <div class=" menu-toggle">
+                        <i class="fas fa-bars"></i>
+                        <i class="fas fa-times"></i>
+                    </div>
+                    <div class="nav  " id="navbarNavDropdown">
+                        <ul class=" nav-list m-2">
+                            <li class="nav-item">                     
+                                <a th:href="@{/}" class="ruta-TG active ">[[#{index.inicio}]]</a>
+                            </li>
+                             <li class="nav-item">
+                                <a th:href="@{/finnk/Productos}" class="ruta-TG active">[[#{index.productos}]]</a>
+                            </li>
+                            <li class="nav-item">
+                                <a th:href="@{/finnk/New arrivals}" class="ruta-TG">[[#{index.novedades}]]</a>
+                            </li>
+                            <li class="nav-item">
+                                <a th:href="@{/finnk/informacion}" class="ruta-TG">[[#{index.informacion}]]</a>
+                            </li>
+                            <li class="nav-item">
+                                <a th:href="@{/finnk/blogs}" class="ruta-TG  ">[[#{index.blog}]]</a>
+                            </li>  
+                             <li class="nav-item">
+                                <a th:href="@{/reportes/principal}" class="ruta-TG  ">[[#{index.reportes}]]</a>
+                            </li> 
+                            <li class="nav-item dropdown" sec:authorize="hasRole('ROLE_ADMIN')" >
+                                <a class="ruta-TG dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                   [[#{index.drop}]]
+                                </a>
+                                <ul class="dropdown-menu w-40 p-3 " >
+                                    <li class="dropdown-header" >[[#{index.dropheader}]]</li>
+                                    <li sec:authorize="hasRole('ROLE_ADMIN')"><a class="dropdown-item " th:href="@{/informacion/listado}">[[#{index.listadoC}]]</a></li>
+                                    <li sec:authorize="hasRole('ROLE_ADMIN')"><a class="dropdown-item " th:href="@{/productos/Inventario}">[[#{index.catalogoR}]]</a></li>                               
+                                    <li sec:authorize="hasRole('ROLE_ADMIN')"><a class="dropdown-item"  th:href="@{/proveedor/Inventario}">[[#{index.listadoP}]]</a></li>     
+                                    <li sec:authorize="hasRole('ROLE_ADMIN')"><a class="dropdown-item"  th:href="@{/empleado/InventarioB}">[[#{index.listadoE}]]</a></li>
+                                      <li sec:authorize="hasRole('ROLE_ADMIN')"><a class="dropdown-item"  th:href="@{/tienda/listado}">[[#{index.listadoT}]]</a></li>
+                                      <li sec:authorize="hasRole('ROLE_ADMIN')"><a class="dropdown-item"  th:href="@{/Reclamos/listado}">[[#{index.listadoW}]]</a></li>
+                                </ul>
+                            </li>                           
+                             <ul class ="navbar-nav" sec:authorize="!isAuthenticated()">
+                            <li class="nav-item">
+                                <a class="ruta-TG" th:href="@{/login}">[[#{login.menu}]]</a>
+                            </li>                            
+                        </ul>
+                        <ul class="navbar-nav"sec:authorize="isAuthenticated()">
+                            <li class=" nav-item text-white ruta-TG  "> 
+                                <i class="fas fa-user"></i> <span sec:authentication="name">Bob</span>
+                            </li>
+                            <li class="nav-item my-auto  ">
+                                <form method="post" th:action="@{/logout}">
+                                    <button class="btn  text-white  ">[[#{login.salida}]]</button>
+                                </form>
+                            </li>                            
+                        </ul>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </header>
+        
+        <div class="container carrito-modificar">
+
+            <div class="row row-cols-12">
+                <div class="card">               
+                    <h2 class="card-header h2-sub p-5">
+                        [[#{carro.datos}]] 
+                    </h2>
+                    <div class="card-body">
+                        <h3 class="card-title">[[${item.nombre}]]</h3>
+                        <h4 class="card-subtitle mb-2 text-muted text-end">
+                            [[${item.precio}+' ('+${item.existencias}+')']]</h4>
+                        <p class="card-text">Cantidad: [[${item.cantidad}]]</p>
+                       
+                    </div>
+                </div>
+                <div class="card">                    
+                    <div class="card-body">
+                        <figure class="imagenes-carrito ">
+                            <img th:src="@{${item.imagen}}" width="120"/>                            
+                        </figure>
+                        <form th:action="@{/carrito/guardar}"
+                              method="post"
+                              th:object="${item}">
+                            <input type="hidden" name="idProducto" th:field="*{idProducto}"/>
+                            <div class="form-group p-5 ">
+                                <label for="cantidad">[[#{carro.cantidad}]]:</label>
+                                <input type="number" name="cantidad" th:field="*{cantidad}" 
+                                       min='1' th:max="${item.existencias}"/>
+                            </div>                
+                            <div class="botones-carrito ">                    
+                                <button class="btn btn-success" type="submit" name="guardar">
+                                    <i class='fas fa-save'></i> [[#{accion.confirmar}]]
+                                </button>
+
+                                <a th:href="@{/carrito/listado}" class="btn btn-primary">
+                                    <i class='fas fa-reply'></i> [[#{accion.volver}]]</a>
+
+                                <a th:href="@{/carrito/eliminar/}+${item.idProducto}"
+                                   class="btn btn-danger">
+                                    <i class='fas fa-trash'></i> [[#{accion.eliminar}]]
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

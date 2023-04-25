@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      mlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+    <head>
+         <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>FINNK</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
+        <link href="/css/estilos.css" rel="stylesheet" type="text/css"/>
+        <link rel="icon" href="img/logo finnk.jpg">
+        <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+        <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+        <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+        <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+        
+    </head>
+    <body >
+    <header th:fragment="header">
+            <nav class=" nav navbar navbar-expand-lg bg-body-tertiary contenedor  ">
+                <div class=" container-fluid nav  ">
+                    <a class="logo  p-4" th:href="@{/}">[[#{aplicacion.titulo}]]</a>
+                    <div class=" menu-toggle">
+                        <i class="fas fa-bars"></i>
+                        <i class="fas fa-times"></i>
+                    </div>
+                    <div class="nav  " id="navbarNavDropdown">
+                        <ul class=" nav-list m-2">
+                            <li class="nav-item">                     
+                                <a th:href="@{/}" class="ruta-TG  ">[[#{index.inicio}]]</a>
+                            </li>
+                             <li class="nav-item">
+                                <a th:href="@{/finnk/Productos}" class="ruta-TG">[[#{index.productos}]]</a>
+                            </li>
+                            <li class="nav-item">
+                                <a th:href="@{/finnk/New arrivals}" class="ruta-TG">[[#{index.novedades}]]</a>
+                            </li>
+                            <li class="nav-item">
+                                <a th:href="@{/finnk/informacion}" class="ruta-TG active">[[#{index.informacion}]]</a>
+                            </li>
+                            <li class="nav-item">
+                                <a th:href="@{/finnk/blogs}" class="ruta-TG  ">[[#{index.blog}]]</a>
+                            </li>  
+                             <li class="nav-item">
+                                <a th:href="@{/reportes/principal}" class="ruta-TG  ">[[#{index.reportes}]]</a>
+                            </li> 
+                            <li class="nav-item dropdown" sec:authorize="hasRole('ROLE_ADMIN')" >
+                                <a class="ruta-TG dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                   [[#{index.drop}]]
+                                </a>
+                                <ul class="dropdown-menu w-40 p-3 " >
+                                    <li class="dropdown-header" >[[#{index.dropheader}]]</li>
+                                    <li sec:authorize="hasRole('ROLE_ADMIN')"><a class="dropdown-item " th:href="@{/informacion/listado}">[[#{index.listadoC}]]</a></li>
+                                    <li sec:authorize="hasRole('ROLE_ADMIN')"><a class="dropdown-item " th:href="@{/productos/Inventario}">[[#{index.catalogoR}]]</a></li>                               
+                                    <li sec:authorize="hasRole('ROLE_ADMIN')"><a class="dropdown-item"  th:href="@{/proveedor/Inventario}">[[#{index.listadoP}]] </a></li>     
+                                    <li sec:authorize="hasRole('ROLE_ADMIN')"><a class="dropdown-item"  th:href="@{/empleado/InventarioB}">[[#{index.listadoE}]] </a></li>
+                                      <li sec:authorize="hasRole('ROLE_ADMIN')"><a class="dropdown-item"  th:href="@{/tienda/listado}">[[#{index.listadoT}]] </a></li>
+                                      <li sec:authorize="hasRole('ROLE_ADMIN')"><a class="dropdown-item"  th:href="@{/Reclamos/listado}">[[#{index.listadoW}]]</a></li>
+                                </ul>
+                            </li>                           
+                             <ul class ="navbar-nav" sec:authorize="!isAuthenticated()">
+                            <li class="nav-item">
+                                <a class="ruta-TG" th:href="@{/login}">[[#{login.menu}]]</a>
+                            </li>                            
+                        </ul>
+                        <ul class="navbar-nav"sec:authorize="isAuthenticated()">
+                            <li class=" nav-item text-white ruta-TG  "> 
+                                <i class="fas fa-user"></i> <span sec:authentication="name">Bob</span>
+                            </li>
+                            <li class="nav-item my-auto  ">
+                                <form method="post" th:action="@{/logout}">
+                                    <button class="btn  text-white  ">[[#{login.salida}]]</button>
+                                </form>
+                            </li>                            
+                        </ul>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+     <section class="infor-porta bt">
+         <div class="contenedor">
+             <div class="global">
+                 <h2 class="h2-sub p-5">
+                     <span class="fil">[[#{inicial.q}]]</span>[[#{inicio.columna9}]]
+                 </h2>
+                 <h1 class="head titulo-inde ">[[#{informativo.titulo}]]</h1>
+             </div>
+         </div>
+     </section>
+
+     <section class="dis-sto">
+         <div class="contenedor ">
+             <div class="res-info">
+                 <div class="imagen-encab">
+                     <img class="gif-1"src="/img/logo finnk.jpg" alt="">     
+
+                 </div>
+
+                 <div class="res-des pad-rig">
+                     <div class="global">
+                         <h2 class="h2-sub p-3">
+                             [[#{inicio.subcolumna1}]]
+                         </h2>
+                         <p class="texto-info p-5">[[#{informacion.text}]]</p>
+                     </div>
+                 </div>
+             </div>
+         </div>
+     </section>
+     <div class="informacion-box espacio-boxes">
+         <div class="card bg-dark text-bg mb-3 " style="max-width: 18rem;">
+             <div class="card-header">[[#{informacion.trabajo}]]</div>
+             <div class="card-body">
+                 <h5 class="card-title">[[#{informacion.subtema}]]</h5>
+                 <p class="card-text">[[#{informacion.Ptrabajo}]]</p>
+             </div>
+         </div>
+         <div class="card bg-dark text-bg mb-3 " style="max-width: 18rem;">
+             <div class="card-header">[[#{informacion.capacidades}]]</div>
+             <div class="card-body">
+                 <h5 class="card-title">[[#{informacion.subtema}]]</h5>
+                 <p class="card-text">[[#{informacion.Pcapacidades}]]</p>
+             </div>
+         </div>
+         <div class="card bg-dark text-bg mb-3 " style="max-width: 18rem;">
+             <div class="card-header">[[#{informacion.tecnologia}]]</div>
+             <div class="card-body">
+                 <h5 class="card-title">[[#{informacion.subtema}]]</h5>
+                 <p class="card-text">[[#{informacion.Ptecnologia}]]</p>
+             </div>
+         </div>
+         <div class="card bg-dark text-bg mb-3 " style="max-width: 18rem;">
+             <div class="card-header">[[#{informacion.responsabilidad}]]</div>
+             <div class="card-body">
+                 <h5 class="card-title">[[#{informacion.subtema}]]</h5>
+                 <p class="card-text">[[#{informacion.Presponsabilidad}]].</p>
+             </div>
+         </div>
+     </div>
+
+
+        <footer th:fragment="footerIndex">
+         <div class="contenedor ">
+             <div class="footer-content">
+
+                 <div class="footer-content-about">
+                     <h4>[[#{inicio.columna8}]]</h4>
+                     <div class="circle">
+                         <i class="fas fa-circle"></i>
+                     </div>
+                     <p>[[#{parrafo.columna8}]]</p>
+                 </div>
+                 <div class="footer-div">
+                     <div class="social-media ">
+                         <h4>[[#{textp3.columna8}]]</h4>
+                         <form th:action="@{/informacion/guardar}" th:object="${informacion}"
+                               method="POST" class="formulario-f  ">
+
+                             <input type="correo" class="news-input"
+                                    name="correo" placeholder="Escribe tu email">
+                                 <div class="w-100 p-5 ">
+                                     <button class="w-50 btn btn-success" type="submit">
+                                         <i class="fas fa-envelope"></i>
+                                     </button>
+
+                                 </div>
+                                  </form>
+                     </div>
+                     <div class="social-media ">
+
+                         <h4>[[#{textp5.columna8}]]</h4>
+                         <form th:action="@{/Reclamos/guardar}" th:object="${reclamo}"
+                               method="POST" class="formulario-f ">
+                             <input type="text" class="news-input "
+                                    name="nombre" placeholder="Escribe tu nombre">
+                                 <div class="w-100 p-5 ">
+                                     <input type="text" class="news-input "
+                                            name="consulta" placeholder="Escribe tu reclamo">
+                                 </div>
+                                 <button class="w-50 btn btn-success" type="submit">
+                                     <i class="fas fa-envelope"></i>
+                                 </button>  
+
+                                   </form>
+
+                     </div>
+                 </div>
+
+
+             </div>
+         </div>
+
+     </footer>
+        
+         <script>
+
+        const selectElement = function(element) {
+            return document.querySelector(element);
+        }
+
+
+        let menuToggle = selectElement('.menu-toggle');
+        let body = selectElement('body');
+
+        menuToggle.addEventListener('click', function(){
+            body.classList.toggle('open');
+        })
+
+    </script>
+    </body>
+    
+</html>

@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      mlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+    <head>
+        <title>FINNK</title>
+        <link rel="icon" href="img/logo finnk.jpg">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
+        <link href="/css/estilos.css" rel="stylesheet" type="text/css"/>   
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+        <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+        <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+        <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+    
+    
+        
+    </head>
+    <body>
+      <header th:fragment="header">
+            <nav class=" nav navbar navbar-expand-lg bg-body-tertiary contenedor  ">
+                <div class=" container-fluid nav  ">
+                    <a class="logo  p-4" th:href="@{/}">[[#{aplicacion.titulo}]]</a>
+                    <div class=" menu-toggle">
+                        <i class="fas fa-bars"></i>
+                        <i class="fas fa-times"></i>
+                    </div>
+                    <div class="nav  " id="navbarNavDropdown">
+                        <ul class=" nav-list m-2">
+                            <li class="nav-item">                     
+                                <a th:href="@{/}" class="ruta-TG  ">[[#{index.inicio}]]</a>
+                            </li>
+                             <li class="nav-item">
+                                <a th:href="@{/finnk/Productos}" class="ruta-TG">[[#{index.productos}]]</a>
+                            </li>
+                            <li class="nav-item">
+                                <a th:href="@{/finnk/New arrivals}" class="ruta-TG">[[#{index.novedades}]]</a>
+                            </li>
+                            <li class="nav-item">
+                                <a th:href="@{/finnk/informacion}" class="ruta-TG">[[#{index.informacion}]]</a>
+                            </li>
+                            <li class="nav-item">
+                                <a th:href="@{/finnk/blogs}" class="ruta-TG active ">[[#{index.blog}]]</a>
+                            </li>  
+                             <li class="nav-item">
+                                <a th:href="@{/reportes/principal}" class="ruta-TG  ">[[#{index.reportes}]]</a>
+                            </li> 
+                            <li class="nav-item dropdown" sec:authorize="hasRole('ROLE_ADMIN')" >
+                                <a class="ruta-TG dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                   [[#{index.drop}]]
+                                </a>
+                                <ul class="dropdown-menu w-40 p-3 " >
+                                    <li class="dropdown-header" >[[#{index.dropheader}]]</li>
+                                    <li sec:authorize="hasRole('ROLE_ADMIN')"><a class="dropdown-item " th:href="@{/informacion/listado}">[[#{index.listadoC}]]</a></li>
+                                    <li sec:authorize="hasRole('ROLE_ADMIN')"><a class="dropdown-item " th:href="@{/productos/Inventario}">[[#{index.catalogoR}]]</a></li>                               
+                                    <li sec:authorize="hasRole('ROLE_ADMIN')"><a class="dropdown-item"  th:href="@{/proveedor/Inventario}">[[#{index.listadoP}]] </a></li>     
+                                    <li sec:authorize="hasRole('ROLE_ADMIN')"><a class="dropdown-item"  th:href="@{/empleado/InventarioB}">[[#{index.listadoE}]] </a></li>
+                                      <li sec:authorize="hasRole('ROLE_ADMIN')"><a class="dropdown-item"  th:href="@{/tienda/listado}">[[#{index.listadoT}]] </a></li>
+                                      <li sec:authorize="hasRole('ROLE_ADMIN')"><a class="dropdown-item"  th:href="@{/Reclamos/listado}">[[#{index.listadoW}]]</a></li>
+                                </ul>
+                            </li>                           
+                             <ul class ="navbar-nav" sec:authorize="!isAuthenticated()">
+                            <li class="nav-item">
+                                <a class="ruta-TG" th:href="@{/login}">[[#{login.menu}]]</a>
+                            </li>                            
+                        </ul>
+                        <ul class="navbar-nav"sec:authorize="isAuthenticated()">
+                            <li class=" nav-item text-white ruta-TG  "> 
+                                <i class="fas fa-user"></i> <span sec:authentication="name">Bob</span>
+                            </li>
+                            <li class="nav-item my-auto  ">
+                                <form method="post" th:action="@{/logout}">
+                                    <button class="btn  text-white  ">[[#{login.salida}]]</button>
+                                </form>
+                            </li>                            
+                        </ul>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        
+         <section>
+             <div class="contenedor1">    
+             </div>
+         </section>
+        <section class="contenedor">
+         <div class="row row-cols-1 row-cols-md-4 g-4 p-5 px-4">
+             <div class="col p-5 px-4">
+                 <div class="card h-100  border border-light">
+                    <img src="/img/blog5.jpg" class="card-img-top"  alt=""/>
+                     <div class="card-body">
+                         <h5 class="card-title">[[#{blog.perlas}]]</h5>
+                         <p class="card-text">[[#{blog.parte1}]]</p>
+                     </div>
+                     <div class="card-footer">
+                         <small class="text-muted">[[#{blog.tiempo}]]</small>
+                     </div>
+                 </div>
+             </div>
+             <div class="col p-5 px-4">
+                 <div class="card h-100 border border-light">                     
+                        <img src="/img/blog4.jpg" class="card-img-top"  alt=""/>
+                     <div class="card-body">
+                         <h5 class="card-title">[[#{blog.fucsia}]]</h5>
+                         <p class="card-text">[[#{blog.parte2}]]</p>
+                     </div>
+                     <div class="card-footer">
+                         <small class="text-muted">[[#{blog.fecha}]]</small>
+                     </div>
+                 </div>
+             </div>
+             <div class="col px-4 p-5 margin-auto">
+                 <div class="card h-100 border border-light">
+                      <img src="/img/blog3.jpg" class="card-img-top"  alt=""/>
+                     <div class="card-body">
+                         <h5 class="card-title">[[#{blog.plataformas}]]</h5>
+                         <p class="card-text">[[#{blog.parte3}]]
+                         </p>
+                     </div>
+                     <div class="card-footer">
+                         <small class="text-muted">[[#{blog.tiempo}]]</small>
+                     </div>
+                 </div>
+             </div>
+              <div class="col px-4 p-5 margin-auto">
+                 <div class="card h-100 border border-light">
+                      <img src="/img/blog2.jpg" class="card-img-top"  alt=""/>
+                     <div class="card-body">
+                         <h5 class="card-title">[[#{blog.cuero}]]</h5>
+                         <p class="card-text">[[#{blog.parte4}]]</p>
+                     </div>
+                     <div class="card-footer">
+                         <small class="text-muted">[[#{blog.fecha2}]]</small>
+                     </div>
+                 </div>
+             </div>
+         </div>
+    </section>
+
+        <section class="taste-2 bt center">
+            <div class="contenedor ">
+                <div class=" global ">
+                    <h2  class="center__text glitch is-glitching" data-text="Noticias">[[#{inicio.columna10}]]</h2>
+                    <h1 class="head"></h1>
+                </div>
+            </div>
+        </section>
+        
+        
+       <div class="contenedor">
+                    <div class="global">                                            
+                        <h3 class="blog-titulo tmBlog">[[#{blog.karolg}]]</h3>                     
+                    </div>
+              <div class="res-info">
+                    <p class="texto-blog">[[#{blog.parte5}]]
+                     
+                    </p>
+                    
+                </div>
+           <div class="caja-video">
+           <iframe class="video1"  src="https://www.youtube.com/embed/LiqouIokxU4" 
+                            title="Karol G se preparó para el desfile de Loewe en Paris Fashion Week 2023 |Vogue México y Latinoamérica"
+                            frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            allowfullscreen></iframe>
+           </div>
+       </div>
+        
+          <section class="sec-blog bt">
+            <div class="contenedor2">
+               
+                    <div class="desliz-fotos">
+                        <div class="desliz-lado">
+                            <div class="desliz"><img src="/img/b20.jpg" alt=""/>                         
+                            </div>
+                            <div class="desliz"><img src="/img/b22.jpg" alt=""/>                         
+                            </div>
+                            <div class="desliz"><img src="/img/b23.jpg" alt=""/>                         
+                            </div>
+                            <div class="desliz"><img src="/img/b25.jpg" alt=""/>                         
+                            </div>
+                            <div class="desliz"><img src="/img/b26.jpg" alt=""/>                         
+                            </div>
+                            <div class="desliz"><img src="/img/b20.jpg" alt=""/>                         
+                            </div>   
+                        </div>
+                             
+                    </div>
+            </div>
+        </section>
+    
+        <div class="contenedor">
+            <div class="global">                                            
+                <h3 class="blog-titulo tmBlog">[[#{blog.versace}]]</h3>                     
+            </div>
+            <div class="res-info">
+                <p class="texto-blog">[[#{blog.parte6}]]
+                    
+
+                </p>
+
+            </div>
+            <div class="caja-video">
+           <iframe class="video1" src="https://www.youtube.com/embed/hoKDrFyQDy0" 
+                   title="Versace Spring-Summer 2023 Women’s | Fashion Show | Versace" 
+                   frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                   allowfullscreen></iframe>
+              
+            </div>
+        </div>
+            
+      <footer th:fragment="footer" class="pie">
+            <div class="footer-cont">
+
+                <ul class="ss-ico p-2  res-info">
+
+                    [[#{inicio.subtitulo}]]&COPY;
+
+                    <li>
+                        <a class="p-2 langueCat" th:href="@{/(lang=es)}">[[#{text.columna6}]]</a>
+                    </li>
+                    <li >
+                        <a class="p-1 langueCat" th:href="@{/(lang=en)}">[[#{text.columna7}]]</a>
+                    </li>
+                </ul>
+            </div>
+
+        </footer>
+ <script>
+
+        const selectElement = function(element) {
+            return document.querySelector(element);
+        }
+
+
+        let menuToggle = selectElement('.menu-toggle');
+        let body = selectElement('body');
+
+        menuToggle.addEventListener('click', function(){
+            body.classList.toggle('open');
+        })
+
+    </script>
+    </body>
+</html>

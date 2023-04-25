@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      mlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+     <head th:replace="~{/index :: head}">
+       
+    </head>
+    <body>
+        <!-- 3 Sección principal para mostrar la informacion de la entidad cliente -->
+        <section th:fragment="listadoClientes" id="clientes">
+               
+            <div class="contenedor res-info p-5" >
+                <div class="row">
+                    <div class="col-md-9 p-5">
+                        <div class="card">
+                            <div class="card-header ">
+                                <h4>[[#{cliente.titulo}]]</h4></div>
+                            <div th:if="${informaciones != null and !informaciones.empty}">
+                                <table class="table table-striped table-hover">
+                                    <thead class="table-dark">
+                                        <tr><th>[[#{cliente.contador}]]</th>
+                                            <th>[[#{cliente.correo}]]</th>                                           
+                                            <th></th></tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr th:each="informacion, contador : ${informaciones}">     
+                                            <td>[[${contador.count}]]</td>
+                                            <td>[[${informacion.correo}]]</td>                           
+                                            <td sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{/informacion/eliminar/}+${informacion.idPersona}"
+                                                   class="btn btn-danger">
+                                                    <i class="fas fa-trash"></i> [[#{accion.eliminar}]]</a>
+                                               
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="text-center p-2" th:if="${informaciones == null or informaciones.empty}">
+                                <span>[[#{cliente.lista}]]</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2 p-5">
+                        <div class="card text-center bg-info text-white mb-3">
+                            <div class="card-body">
+                                <h3>[[#{cliente.total}]]</h3>
+                                   <h4 class="fs-2"><i class="fas fa-users"></i> [[${totalClientes}]]</h4>
+                             
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4 Fragmento que se utiliza en la página modifca.html -->
+        
+
+        <!-- 5 Fragmento que se utiliza en el fragmento anterior -->
+        <section th:fragment="botonesEditar">
+           
+                    <div class="col-md-4 d-grid"sec:authorize="hasRole('ROLE_ADMIN')">                                
+                        <a th:href="@{/informacion/eliminar/}+${informacion.idPersona}"
+                           class="btn btn-danger">
+                            <i class="fas fa-trash"></i> [[#{accion.eliminar}]]
+                        </a>
+                    </div>
+                   
+        </section>
+
+    </body>
+    
+</html>
