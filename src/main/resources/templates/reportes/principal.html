@@ -41,8 +41,8 @@
                             <li class="nav-item">
                                 <a th:href="@{/finnk/blogs}" class="ruta-TG  ">[[#{index.blog}]]</a>
                             </li>  
-                             <li class="nav-item">
-                                <a th:href="@{/reportes/principal}" class="ruta-TG active">[[#{index.reportes}]]</a>
+                          <li sec:authorize="hasRole('ROLE_ADMIN')" class="nav-item">
+                                <a th:href="@{/reportes/principal}" class="ruta-TG active ">[[#{index.reportes}]]</a>
                             </li> 
                             <li class="nav-item dropdown" sec:authorize="hasRole('ROLE_ADMIN')" >
                                 <a class="ruta-TG dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
